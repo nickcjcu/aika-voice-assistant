@@ -253,8 +253,8 @@ class AikaWindow(QMainWindow):
         main_layout.addWidget(conversation_subtitle)
 
         self.conversation_placeholder = QLabel(
-            "Welcome to AIKA+\\n\\n"
-            "Start the agent to launch the voice assistant.\\n"
+            "Welcome to AIKA+\n\n"
+            "Start the agent to launch the voice assistant.\n"
             "Conversation messages will be connected in a later stage."
         )
         self.conversation_placeholder.setObjectName(
