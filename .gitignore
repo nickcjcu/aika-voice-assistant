@@ -7,3 +7,9 @@ __pycache__/
 
 # Environment variables and secrets
 .env
+
+# Local database
+data/
+*.db
+*.sqlite
+*.sqlite3
