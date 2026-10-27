@@ -18,11 +18,12 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+import platform
+import subprocess
 
-# --------------------------------------------------
+
 # Customisation settings
 # Change these values to customise the appearance.
-# --------------------------------------------------
 
 APP_NAME = "AIKA+"
 WINDOW_WIDTH = 1100
@@ -413,8 +414,13 @@ class AikaWindow(QMainWindow):
     # ---------------- Utilities ----------------
 
     def show_in_explorer(self):
-        # Open the project root without displaying .env contents.
-        os.startfile(str(PROJECT_ROOT))
+        # Open the project root (windows/linux/macos)
+        if platform.system() == "Windows":
+            os.startfile(str(PROJECT_ROOT))
+        elif platform.system() == "Linux":
+            subprocess.Popen(["xdg-open", str(PROJECT_ROOT)])
+        elif platform.system() == "Darwin":
+            subprocess.Popen(["open", str(PROJECT_ROOT)])
 
     def closeEvent(self, event: QCloseEvent):
         self.shutting_down = True
