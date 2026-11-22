@@ -1,0 +1,165 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AIKA+ Conversation</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 18px;
+            background: #1C2026;
+            color: #F2F4F7;
+            font-family: "Segoe UI", Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #messages {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            padding: 10px 5px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 12px 15px;
+            border-radius: 12px;
+            line-height: 1.5;
+            overflow-wrap: anywhere;
+            white-space: pre-wrap;
+        }
+
+        .user {
+            align-self: flex-end;
+            background: #285B55;
+            color: #FFFFFF;
+        }
+
+        .assistant {
+            align-self: flex-start;
+            background: #292F38;
+            color: #F2F4F7;
+        }
+
+        .sender {
+            font-size: 11px;
+            color: #AAB4C0;
+            margin-bottom: 5px;
+        }
+
+        #welcome {
+            margin: auto;
+            text-align: center;
+            color: #929BA8;
+            line-height: 1.7;
+        }
+
+        #controls {
+            border-top: 1px solid #343A43;
+            padding-top: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        #status {
+            font-size: 13px;
+            color: #929BA8;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        button {
+            border: none;
+            border-radius: 7px;
+            padding: 10px 16px;
+            font-size: 13px;
+            cursor: pointer;
+            color: white;
+        }
+
+        button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        #connectButton {
+            background: #54C7B5;
+            color: #171A1F;
+        }
+
+        #disconnectButton {
+            background: #454D58;
+        }
+
+        #micButton {
+            background: #343A43;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div id="messages">
+
+        <div id="welcome">
+            <h2>Welcome to AIKA+</h2>
+
+            <p>
+                Start your AIKA+ agent, then connect to begin
+                your kitchen assistant conversation.
+            </p>
+        </div>
+
+    </div>
+
+    <div id="controls">
+
+        <div id="status">
+            Disconnected
+        </div>
+
+        <div class="buttons">
+
+            <button id="micButton" disabled>
+                Mute microphone
+            </button>
+
+            <button id="disconnectButton" disabled>
+                Disconnect
+            </button>
+
+            <button id="connectButton">
+                Connect
+            </button>
+
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/livekit-client@2.23.0/dist/livekit-client.umd.min.js"></script>
+
+    <script src="chat.js"></script>
+
+</body>
+
+</html>
