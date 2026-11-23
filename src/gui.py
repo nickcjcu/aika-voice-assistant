@@ -17,6 +17,7 @@ from PySide6.QtWidgets import (
     QMessageBox,
     QPushButton,
     QPlainTextEdit,
+    QCheckBox,
     QSizePolicy,
     QVBoxLayout,
     QWidget,
@@ -138,6 +139,28 @@ QPushButton#output_toggle_button {
 QPushButton#output_toggle_button:hover {
     color: #54C7B5;
     background-color: #292F38;
+}
+
+QPushButton#noise_cancellation_toggle {
+    background-color: #414955;
+    color: #F2F4F7;
+    border: 1px solid #555E69;
+    border-radius: 9px;
+    padding: 0px;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+QPushButton#noise_cancellation_toggle:checked {
+    background-color: #54C7B5;
+    color: #171A1F;
+    border: 1px solid #54C7B5;
+}
+
+QPushButton#noise_cancellation_toggle:disabled {
+    background-color: #292F38;
+    color: #707985;
+    border: 1px solid #343A43;
 }
 
 QPlainTextEdit#log_output {
@@ -281,6 +304,46 @@ class AikaWindow(QMainWindow):
         )
 
         sidebar_layout.addWidget(self.stop_button)
+
+
+        
+        # Noise cancellation toggle
+
+        noise_layout = QHBoxLayout()
+
+        noise_label = QLabel("Noise cancellation")
+
+        noise_layout.addWidget(noise_label)
+
+        noise_layout.addStretch()
+
+        self.noise_cancellation_toggle = QPushButton("ON")
+
+        self.noise_cancellation_toggle.setObjectName(
+            "noise_cancellation_toggle"
+        )
+
+        self.noise_cancellation_toggle.setCheckable(True)
+
+        self.noise_cancellation_toggle.setChecked(True)
+
+        self.noise_cancellation_toggle.setFixedSize(48, 24)
+
+        self.noise_cancellation_toggle.setToolTip(
+            "Enable or disable noise cancellation before starting the agent."
+        )
+
+        self.noise_cancellation_toggle.toggled.connect(
+            lambda checked: self.noise_cancellation_toggle.setText(
+                "ON" if checked else "OFF"
+            )
+        )
+
+        noise_layout.addWidget(
+            self.noise_cancellation_toggle
+        )
+
+        sidebar_layout.addLayout(noise_layout)
 
 
         sidebar_layout.addSpacing(15)
@@ -527,6 +590,12 @@ class AikaWindow(QMainWindow):
             "1"
         )
 
+        # Pass the noise cancellation setting to main.py
+        process_environment.insert(
+            "AIKA_NOISE_CANCELLATION",
+            "1" if self.noise_cancellation_toggle.isChecked() else "0"
+        )
+
         self.agent_process.setProcessEnvironment(
             process_environment
         )
@@ -688,6 +757,11 @@ class AikaWindow(QMainWindow):
 
         self.stop_button.setEnabled(
             status not in ["Stopped", "Error"]
+        )
+
+        # Only allow changing noise cancellation when stopped or in error
+        self.noise_cancellation_toggle.setEnabled(
+            status in ["Stopped", "Error"]
         )
 
 
