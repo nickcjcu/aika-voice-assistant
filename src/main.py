@@ -1,9 +1,12 @@
+
 import asyncio
+import os
+
 from dotenv import load_dotenv
 
 from livekit import agents
-from livekit.agents import Agent, AgentServer, AgentSession, RunContext, function_tool
-from livekit.plugins import openai
+from livekit.agents import Agent, AgentServer, AgentSession, RunContext, function_tool, room_io
+from livekit.plugins import openai, noise_cancellation
 
 from functions import (
     add_note, list_notes, remove_note,
@@ -194,9 +197,29 @@ async def aika_assistant(ctx: agents.JobContext):
         llm=openai.realtime.RealtimeModel(voice="marin"),
     )
 
+    # Read the noise cancellation setting supplied by the desktop GUI.
+    # Default to ON if the environment variable is not provided.
+    noise_cancellation_enabled = (
+        os.environ.get("AIKA_NOISE_CANCELLATION", "1").strip().lower()
+        in {"1", "true", "yes", "on"}
+    )
+
+    session_start_options = {}
+
+    if noise_cancellation_enabled:
+        session_start_options["room_options"] = room_io.RoomOptions(
+            audio_input=room_io.AudioInputOptions(
+                noise_cancellation=noise_cancellation.NC(),
+            ),
+        )
+        print("Noise cancellation: ON")
+    else:
+        print("Noise cancellation: OFF")
+
     await session.start(
         room=ctx.room,
         agent=AikaAssistant(),
+        **session_start_options,
     )
 
     await session.generate_reply(
