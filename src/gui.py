@@ -222,6 +222,8 @@ class AikaWindow(QMainWindow):
 
         self.shutting_down = False
 
+        self.intentional_stop = False
+
         # Timer used when stopping the agent
         self.stop_timer = QTimer(self)
 
@@ -567,6 +569,8 @@ class AikaWindow(QMainWindow):
         if self.agent_process.state() != QProcess.NotRunning:
             return
 
+        self.intentional_stop = False
+
         if not AGENT_FILE.exists():
 
             self.set_log("Error: main.py could not be found.")
@@ -636,11 +640,15 @@ class AikaWindow(QMainWindow):
 
         if self.agent_process.state() == QProcess.NotRunning:
 
+            self.intentional_stop = False
+
             self.update_status("Stopped", SECONDARY_TEXT)
 
             self.start_button.setEnabled(True)
 
             return
+
+        self.intentional_stop = True
 
         self.update_status("Stopping", SECONDARY_TEXT)
 
@@ -670,7 +678,15 @@ class AikaWindow(QMainWindow):
         if self.shutting_down:
             return
 
-        if exit_status == QProcess.CrashExit:
+        if self.intentional_stop:
+
+            self.intentional_stop = False
+
+            self.update_status("Stopped", SECONDARY_TEXT)
+
+            self.set_log("AIKA+ agent stopped.")
+
+        elif exit_status == QProcess.CrashExit:
 
             self.update_status("Error", ERROR_COLOUR)
 
