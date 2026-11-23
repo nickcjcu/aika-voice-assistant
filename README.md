@@ -68,8 +68,6 @@ The following screenshots demonstrate the AIKA+ desktop interface and its main f
 
 ![AIKA+ Screenshot 1](images/aika1.png)
 
-![AIKA+ Screenshot 2](images/aika2.png)
-
 ![AIKA+ Screenshot 3](images/aika3.png)
 
 ![AIKA+ Screenshot 4](images/aika4.png)
