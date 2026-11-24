@@ -205,3 +205,76 @@ flowchart TD
 | SQLite | Stores kitchen management records locally. |
 | Krisp Noise Cancellation | Provides optional background noise reduction for voice communication. |
 
+## Setup and Usage
+
+### Requirements
+
+- Python 3.12 or later
+- A LiveKit Cloud account
+- An OpenAI API key
+- Git
+
+### Installation
+
+1. Clone the repository (to a folder of your choice):
+
+   ```bash
+   git clone https://github.com/username/repo-name.git
+   cd aika-voice-assistant
+   ```
+
+   Replace the placeholders with GitHub username and repository name.
+
+2. Create a Python virtual environment:
+
+   ```bash
+   python -m venv .venv
+   ```
+
+3. Activate the virtual environment.
+
+   **Windows:**
+   ```powershell
+   .venv\Scripts\activate
+   ```
+
+   **Linux/Mac:**
+   ```bash
+   source .venv/bin/activate
+   ```
+
+4. Install the required dependencies:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+### Environment Configuration
+
+Create a `.env` file in the project root directory and add the following credentials:
+
+```env
+LIVEKIT_URL=your_livekit_url
+LIVEKIT_API_KEY=your_livekit_api_key
+LIVEKIT_API_SECRET=your_livekit_api_secret
+OPENAI_API_KEY=your_openai_api_key
+```
+
+Replace the placeholder values with your actual credentials.
+
+### Running AIKA+
+
+Start the desktop application from the project root directory:
+
+```bash
+python src/gui.py
+```
+
+### Using the Assistant
+
+1. Launch AIKA+.
+2. Start the assistant using the Start Agent button.
+3. Connect to the assistant using the Connect button.
+4. Allow microphone access when prompted.
+5. Speak naturally to request kitchen assistance.
+6. Use the Disconnect and Stop Agent buttons when finished.
